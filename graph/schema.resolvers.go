@@ -6,34 +6,33 @@ package graph
 
 import (
 	"context"
-	"fmt"
-    "github.com/mtariq99/graphqlexample/database"
+
 	"github.com/mtariq99/graphqlexample/graph/model"
 )
-db:=database.Connect()
+
 // CreateJobListing is the resolver for the CreateJobListing field.
 func (r *mutationResolver) CreateJobListing(ctx context.Context, input model.CreateJobListingInput) (*model.JobListing, error) {
-	return db.CreateJobListingDB(input),nil
+	return r.api.CreateJobListingAPI(ctx, input)
 }
 
 // UpdateJobListing is the resolver for the UpdateJobListing field.
 func (r *mutationResolver) UpdateJobListing(ctx context.Context, id string, input model.UpdateJobListingInput) (*model.JobListing, error) {
-	return db.UpdateJobListingDB(id,input),nil
+	return r.api.UpdateJobListingAPI(ctx, id, input)
 }
 
 // DeleteJobListing is the resolver for the DeleteJobListing field.
 func (r *mutationResolver) DeleteJobListing(ctx context.Context, id string) (*model.DeleteJobListingResponse, error) {
-	return db.DeleteJobListingDB(id),nil
+	return r.api.DeleteJobListingAPI(ctx, id)
 }
 
 // Jobs is the resolver for the jobs field.
 func (r *queryResolver) Jobs(ctx context.Context) ([]*model.JobListing, error) {
-	return db.GetJobs(),nil
+	return r.api.JobsAPI(ctx)
 }
 
 // Job is the resolver for the job field.
 func (r *queryResolver) Job(ctx context.Context, id string) (*model.JobListing, error) {
-	return db.GetJobDB(id),nil
+	return r.api.JobAPI(ctx, id)
 }
 
 // Mutation returns MutationResolver implementation.
