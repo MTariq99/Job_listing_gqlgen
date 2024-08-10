@@ -8,8 +8,8 @@ import (
 )
 
 type JobListingDB interface {
-	CreateJobListingDB(ctx context.Context, input model.JobListing) (*model.JobListing, error)
-	DeleteJobListingDB(ctx context.Context, id string) (*model.DeleteJobListingResponse, error)
+	CreateJobListingDB(ctx context.Context, input model.CreateJobListingInput) (*model.JobListing, error)
+	DeleteJobListingDB(id string) (*model.DeleteJobListingResponse, error)
 	JobsDB() ([]*model.JobListing, error)
 	JobDB(id string) (*model.JobListing, error)
 	UpdateJobListingDB(id string, input model.UpdateJobListingInput) (*model.JobListing, error)
