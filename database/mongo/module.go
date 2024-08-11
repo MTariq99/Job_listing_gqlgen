@@ -2,6 +2,7 @@ package mongo
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/mtariq99/graphqlexample/config"
@@ -33,9 +34,20 @@ func ConnectMongo() *JobListingDBImpl {
 	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Connected to mongo database")
 	return &JobListingDBImpl{
 		Client: client,
 	}
+}
+
+func LoadCollection(client *mongo.Client) map[string]*mongo.Collection {
+	collection := make(map[string]*mongo.Collection, 6)
+	collection["jobs"] = collectionHelper(client, "jobs")
+	return collection
+}
+
+func collectionHelper(client *mongo.Client, collectionName string) *mongo.Collection {
+	return client.Database("job_listing").Collection(collectionName)
 }
 
 var _ JobListingDB = &JobListingDBImpl{}
