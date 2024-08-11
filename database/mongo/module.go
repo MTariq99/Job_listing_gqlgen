@@ -13,16 +13,16 @@ import (
 )
 
 type JobListingDB interface {
-	CreateJobListingDB(ctx context.Context, input model.CreateJobListingInput) (*model.JobListing, error)
-	DeleteJobListingDB(id string) (*model.DeleteJobListingResponse, error)
-	JobsDB() ([]*model.JobListing, error)
-	JobDB(id string) (*model.JobListing, error)
-	UpdateJobListingDB(id string, input model.UpdateJobListingInput) (*model.JobListing, error)
+	CreateJobListingDB(ctx context.Context, collectionName string, input model.CreateJobListingInput) (*model.JobListing, error)
+	DeleteJobListingDB(ctx context.Context, collectionName string, id string) (*model.DeleteJobListingResponse, error)
+	JobsDB(ctx context.Context, collectionName string) ([]*model.JobListing, error)
+	JobDB(ctx context.Context, collectionName string, id string) (*model.JobListing, error)
+	UpdateJobListingDB(ctx context.Context, collectionName string, id string, input model.UpdateJobListingInput) (*model.JobListing, error)
 }
 
 type JobListingDBImpl struct {
-	Client *mongo.Client
-	// Collection map[string]*mongo.Collection
+	Client     *mongo.Client
+	Collection map[string]*mongo.Collection
 }
 
 func ConnectMongo() *JobListingDBImpl {
@@ -34,9 +34,11 @@ func ConnectMongo() *JobListingDBImpl {
 	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
 		log.Fatal(err)
 	}
+	collection := LoadCollection(client)
 	fmt.Println("Connected to mongo database")
 	return &JobListingDBImpl{
-		Client: client,
+		Client:     client,
+		Collection: collection,
 	}
 }
 

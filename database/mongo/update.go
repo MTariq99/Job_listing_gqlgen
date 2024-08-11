@@ -1,7 +1,11 @@
 package mongo
 
-import "github.com/mtariq99/graphqlexample/graph/model"
+import (
+	"context"
 
-func (mongo *JobListingDBImpl) UpdateJobListingDB(id string, input model.UpdateJobListingInput) (*model.JobListing, error) {
+	"github.com/mtariq99/graphqlexample/graph/model"
+)
+
+func (mongo *JobListingDBImpl) UpdateJobListingDB(ctx context.Context, collectionName string, id string, input model.UpdateJobListingInput) (*model.JobListing, error) {
 	return nil, nil
 }
