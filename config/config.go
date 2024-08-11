@@ -10,6 +10,7 @@ type Config struct {
 	MongoURL   string `mapstructure:"MONGO_URL"`
 	ServerPort string `mapstructure:"SERVER_PORT"`
 	JwtSecret  string `mapstructure:"JWT_SECRET"`
+	Collection string `mapstructure:"COLLECTION_NAME"`
 }
 
 var Cfg Config
